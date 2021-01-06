@@ -1,0 +1,188 @@
+﻿
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+@model VoteViewModel;
+<form>
+    <div class="row" style="height: 70px">
+
+    </div>
+
+    <div class="card text-center mt-lg-2 ">
+        <div class="card-header">
+
+        </div>
+
+        <div class='msg error ml-4 mt-3' style="color: orangered; font-weight: bolder; text-align: left;">
+        </div>
+        <div class='sucess ml-4 mt-3' style="color: forestgreen; font-weight: bolder; text-align: left;">
+        </div>
+        <div class='weekend error ml-4 mt-3' style="color: orangered; font-weight: bolder; text-align: left;">
+        </div>
+        <div class='midday error ml-4 mt-3' style="color: orangered; font-weight: bolder; text-align: left;">
+        </div>
+
+
+        <div class="card-body text-left ">
+            <div class="row mb-5" style="color: gray;">
+                <div class="col">
+                    <label>Data</label>
+                    <input type="date" class="form-control" name="date" id="date" onchange="ChangeDate()" style="color: gray;">
+                    <input type="hidden" name="dateHiden" id="dateHiden" value="@(Model.Date.Day)/@(Model.Date.Month)/@(Model.Date.Year)">
+
+                </div>
+                <div class="col">
+                    <label>Usuario</label>
+                    <input type="text" name="user" class="form-control" id="user" style=" width: 190px; color: gray ">
+
+                </div>
+                <div class="col">
+                </div>
+                <div class="col">
+                </div>
+
+            </div>
+            @{ //total quantity
+                var total = Model.Restaurants.Sum(x => x.Quantidade);
+                var maior = Model.Restaurants.Max(x => x.Quantidade);
+            }
+
+            <table class="table">
+
+                <div class="row" style="color: gray;">
+                    @{
+                        if (Model.WinnerRestaurant() != null)
+                        {
+                            <p class="ml-2">Restaurante vencedor: @Model.WinnerRestaurant().Name</p>
+                        }
+                        else
+                        {
+                            <p class="ml-2"> Não há um restaurante vencedor neste dia</p>
+                        }
+                    }
+                </div>
+                <tbody>
+                    @foreach (var item in Model.Restaurants)
+                    {
+                        <tr class="row">
+                            <td class="col-">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio"
+                                           @(item.IsReady ? "" : "Disabled")
+                                           name="radio" id="option" value="@(item.Restaurant.Id_restaurant)">
+
+                                </div>
+                            </td>
+
+                            <td class="col-2">@(item.Restaurant.Name)</td>
+
+                            <td class="col-5">
+                                <div class="progress" style="height: 10px; width: 180px; font-size: 10px">
+                                    <div class="progress-bar" role="progressbar" style="width:@(item.CalculaPercete(total))%"
+                                         aria-valuenow="@(item.CalculaPercete(total))"
+                                         aria-valuemin="0" aria-valuemax="100">
+                                        @(item.Quantidade)
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td class="col-4">
+                            </td>
+                        </tr>
+
+                        //item.Quantidade / Model.Restaurants.Sum(x => x.Quantidade);
+                    }
+                </tbody>
+            </table>
+
+
+        </div>
+
+        <button type="button" class="btn btn-secondary btn-sm" onclick="data()">Votar</button>
+
+    </div>
+</form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
+@section Scripts {
+    <script type="text/javascript">
+        $('.error').hide();
+        $('.sucess').hide();
+
+
+        var dateHiden = $('#dateHiden').val();
+        var hidenFormated = moment(dateHiden, 'DD/MM/YYYY').format('YYYY-MM-DD');
+        $('#date').val(hidenFormated)
+        console.log(dateHiden);
+
+
+        function ChangeDate() {
+            $('.error').hide();
+            $('.sucess').hide();
+
+
+            let date = document.getElementById('date').value;
+            let dateformated = moment(date, 'YYYY/MM/DD').format('YYYY-MM-DD');
+            let dayWeekend = new Date(dateformated);
+            console.log(dayWeekend.getDay());
+
+            if (dayWeekend.getDay() == 5 || dayWeekend.getDay() == 6) {
+                $('.weekend').show().text("Não é possível votar no fim de semana.");
+            }
+            else
+                window.location.search = 'date=' + dateformated;
+
+        }
+
+        function data() {
+
+            moment.locale('pt-BR', {
+                week: { dow: 1 } // Monday is the first day of the week
+
+            });
+
+            let user = document.getElementById('user').value;
+
+            let date = document.getElementById('date').value;
+            console.log("date new config", date);
+            let dateFormated = moment(date, 'YYYY/MM/DD').format('YYYY-MM-DD');
+            console.log(dateFormated);
+            let option = document.querySelector('input[name="radio"]:checked').value;
+
+
+            let dataObj =
+            {
+                date: dateFormated,
+                id_restaurant: option,
+                user_name: user
+            };
+            console.log(dataObj);
+
+            $.ajax({
+                url: '/vote/PostObj',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(dataObj),
+                error: function (error) {
+                    $('.error').hide();
+                    $('.msg').show().text(error.responseText);
+                },
+                success: function (success) {
+                    $('.sucess').show().text("Voto concluido com sucesso!");
+                }
+
+            });
+            $('msg').hide();
+            $('.sucess').hide();
+
+            //clean data
+            document.querySelector('form').reset();
+
+        }
+
+
+    </script>
+}
+
