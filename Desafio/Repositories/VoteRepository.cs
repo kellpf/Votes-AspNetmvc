@@ -48,7 +48,7 @@ namespace Desafio.Repositories
             var result = jsonVotes.Any(u => u.User_name == vote.User_name && u.Date == vote.Date);
             if (result == true)
             {
-                throw new Exception("Você já votou hoje!");
+                throw new Exception("Você já votou neste dia!");
             }
         }
         public void VerifyOldDate(Vote vote)
@@ -99,15 +99,5 @@ namespace Desafio.Repositories
             return r;
         }
 
-       
-        //public void VerifyMidday(Vote vote)
-        //{
-        //    DateTime date = DateTime.Today.TryFormat());
-
-        //    if(vote.Date == date && date.Hour > 12)
-        //    {
-        //        throw new Exception("Não é possível votar após meio dia hoje!");
-        //    }
-        //}
     }
 }

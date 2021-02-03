@@ -71,7 +71,7 @@
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio"
                                            @(item.IsReady ? "" : "Disabled")
-                                           name="radio" id="option" value="@(item.Restaurant.Id_restaurant)">
+                                           name="radio" id="@(item.Restaurant.Name)" value="@(item.Restaurant.Id_restaurant)">
 
                                 </div>
                             </td>
@@ -100,7 +100,7 @@
 
         </div>
 
-        <button type="button" class="btn btn-secondary btn-sm" onclick="data()">Votar</button>
+        <button type="button" id="btn" class="btn btn-secondary btn-sm" onclick="data()">Votar</button>
 
     </div>
 </form>
@@ -128,10 +128,7 @@
             let dayWeekend = new Date(dateformated);
             console.log(dayWeekend.getDay());
 
-            if (dayWeekend.getDay() == 5 || dayWeekend.getDay() == 6) {
-                $('.weekend').show().text("Não é possível votar no fim de semana.");
-            }
-            else
+            
                 window.location.search = 'date=' + dateformated;
 
         }

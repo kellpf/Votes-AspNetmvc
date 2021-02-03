@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Desafio", "Desafio\Desafio.csproj", "{086A72E1-F55A-4052-927E-0D4F4A9777FE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{48C83B79-A390-4E81-A7B0-A6FAF4B3A1E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Votes.Selenium.test", "Votes.test\Votes.Selenium.test.csproj", "{21DA259A-BD47-4BAA-BD24-A5E071DD3923}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{086A72E1-F55A-4052-927E-0D4F4A9777FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{086A72E1-F55A-4052-927E-0D4F4A9777FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{086A72E1-F55A-4052-927E-0D4F4A9777FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21DA259A-BD47-4BAA-BD24-A5E071DD3923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21DA259A-BD47-4BAA-BD24-A5E071DD3923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21DA259A-BD47-4BAA-BD24-A5E071DD3923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21DA259A-BD47-4BAA-BD24-A5E071DD3923}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{21DA259A-BD47-4BAA-BD24-A5E071DD3923} = {48C83B79-A390-4E81-A7B0-A6FAF4B3A1E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A326D316-EC38-4375-B126-99AE7072DF3D}

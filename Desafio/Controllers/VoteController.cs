@@ -48,7 +48,9 @@ namespace Desafio.Controllers
                 // voteRepository.VerifyMidday(vote);
                 usersRepository.VerifyUser(vote.User_name);
                 voteRepository.VerifyMidDay(vote.Date);
+                voteRepository.VerifyWeekend(vote.Date);
                 services.WinnersOfDay(vote.Date);
+                
 
                 voteRepository.InsertVote(vote);
          
